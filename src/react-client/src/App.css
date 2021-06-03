@@ -1,0 +1,175 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.survey-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 24px 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgb(0 0 0 / 30%);
+  box-shadow: 0 30px 60px 0 rgb(0 0 0 / 30%);
+  background: #fff;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  background-color: #2541b2;
+  color: #fff;
+  padding: 24px;
+}
+
+.header span {
+  margin-top: 24px;
+}
+
+.page {
+  width: 100%;
+  padding: 24px;
+}
+
+.survey-question-group {
+  width: 100%;
+}
+
+.survey-question-group-header {
+  margin: 20px 0px 0 20px;
+}
+
+/*Question*/
+.question {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+}
+
+.question-content {
+  font-size: 16px;
+}
+
+.required-question {
+  color: #ee3124;
+}
+/*#Question*/
+
+/*Answer Option*/
+
+.answer-option {
+  margin: 10px 20px;
+}
+
+.answer-option-text {
+  margin: 10px 0px;
+}
+
+.answer-option textarea {
+  border: 2px solid #ddd;
+  padding: 10px;
+  outline: none;
+  width: 100%;
+}
+
+.answer-option-select {
+  margin: 10px 0px;
+}
+
+.answer-option-select label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.answer-option-select input {
+  margin-right: 10px;
+  height: 18px;
+  width: 18px;
+}
+
+.answer-option-multi-select {
+  margin: 10px 0px;
+}
+
+.answer-option-multi-select label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.answer-option-multi-select input {
+  margin-right: 10px;
+  height: 18px;
+  width: 18px;
+}
+
+/*#Answer Option*/
+
+/*Additional Answer*/
+.additional-answer {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 20px;
+}
+
+.additional-answer span {
+  font-size: 14px;
+}
+
+.additional-answer textarea {
+  margin-top: 4px;
+  border: 2px solid #ddd;
+  padding: 10px;
+  outline: none;
+}
+/*#Additional Answer*/
+
+/*Action Box*/
+.action-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+}
+
+.button {
+  border: none;
+  height: 32px;
+  padding: 6px 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button:hover {
+  -webkit-box-shadow: 0 15px 30px 0 rgb(0 0 0 / 30%);
+  box-shadow: 0 15px 30px 0 rgb(0 0 0 / 30%);
+}
+
+.pagination{
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.pagination-button {
+  background: #fb9300;
+  color: #fff;
+  min-width: 100px;
+}
+
+.complete-button {
+  background: #4aa96c;
+  color: #fff;
+  min-width: 120px;
+  height: 48px;
+}
+
+/*#Action Box*/
