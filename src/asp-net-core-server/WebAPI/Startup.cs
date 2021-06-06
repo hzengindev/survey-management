@@ -52,7 +52,17 @@ namespace WebAPI
             services.AddScoped<IGetImage, GetImageHandler>();
 
             services.AddSingleton<ICacheService, MemoryCacheManager>();
-            
+
+            services.AddCors(option =>
+            {
+                option.AddPolicy("default", config =>
+                {
+                    config.AllowAnyOrigin();
+                    config.AllowAnyHeader();
+                    config.AllowAnyMethod();
+                });
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -77,6 +87,8 @@ namespace WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("default");
 
             app.UseEndpoints(endpoints =>
             {
