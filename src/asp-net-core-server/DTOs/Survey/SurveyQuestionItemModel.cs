@@ -15,11 +15,11 @@ namespace DTOs.Survey
         public bool Required { get; set; }
         public bool AdditionalAnswer { get; set; }
         public QuestionType QuestionType { get; set; }
-        public Lookup SurveyQuestionGroup { get; set; }
+        public SurveyQuestionGroup SurveyQuestionGroup { get; set; }
 
         public List<SurveyAnswerOptionItemModel> AnswerOptions { get; set; }
 
-        public SurveyQuestionItemModel(Guid id, string name, string description, string imageURL, int order, bool required, bool additionalAnswer, QuestionType questionType, Lookup surveyQuestionGroup)
+        public SurveyQuestionItemModel(Guid id, string name, string description, string imageURL, int order, bool required, bool additionalAnswer, QuestionType questionType, SurveyQuestionGroup surveyQuestionGroup)
         {
             this.Id = id;
             this.Name = name;

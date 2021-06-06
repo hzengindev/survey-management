@@ -98,7 +98,7 @@ namespace Business.Concrete.Survey
                     item.GetBoolean("hz_required") ?? false,
                     item.GetBoolean("hz_additionalanswer") ?? false,
                     (QuestionType)item.GetOptionSet("hz_typecode").Value,
-                    item.GetLookup("hz_surveyquestiongroupid")
+                    MapSurveyQuestionGroup(item)
                     )
                 {
                     AnswerOptions = MapSurveyAnswerOption((QuestionType)item.GetOptionSet("hz_typecode").Value,
@@ -203,6 +203,21 @@ namespace Business.Concrete.Survey
                     item.GetString("answerOption", "hz_name"),
                     item.GetInt("answerOption", "hz_order") ?? 0,
                     item.Contains("answerOption.hz_imageid") ? $"/image/answeroption/{item.GetKey("answerOption", "hz_surveyansweroptionid")}" : null));
+
+            return returnValue;
+        }
+
+        private SurveyQuestionGroup MapSurveyQuestionGroup(Entity entity)
+        {
+            if (!entity.Contains("hz_surveyquestiongroupid"))
+                return null;
+
+            var returnValue = new SurveyQuestionGroup(
+                entity.GetLookup("hz_surveyquestiongroupid").Id,
+                entity.GetString("surveyQuestionGroup","hz_name"),
+                entity.GetString("surveyQuestionGroup", "hz_description"),
+                entity.GetInt("surveyQuestionGroup", "hz_order") ?? 0,
+                entity.GetBoolean("surveyQuestionGroup", "hz_showdescription") ?? false);
 
             return returnValue;
         }

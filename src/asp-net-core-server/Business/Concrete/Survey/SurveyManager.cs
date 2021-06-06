@@ -49,6 +49,10 @@ namespace Business.Concrete.Survey
             qe.Criteria.AddCondition(new ConditionExpression("statecode", ConditionOperator.Equal, 0));
             qe.AddOrder("hz_order", OrderType.Ascending);
 
+            var surveyQuestionGroupLink = qe.AddLink("hz_surveyquestiongroup", "hz_surveyquestiongroupid", "hz_surveyquestiongroupid", JoinOperator.LeftOuter);
+            surveyQuestionGroupLink.EntityAlias = "surveyQuestionGroup";
+            surveyQuestionGroupLink.Columns = new ColumnSet("hz_name", "hz_description", "hz_showdescription", "hz_order");
+
             var ec = _service.RetrieveAll(qe);
             _cacheService.Add(cacheKey, ec, 1440);
             return ec;

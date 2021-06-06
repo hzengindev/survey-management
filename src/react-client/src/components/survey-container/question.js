@@ -15,7 +15,9 @@ const Question = ({ question }) => {
         <span>{question.name}</span>
       </div>
 
-      {question.questionType === QuestionType.Text && <AnswerOptionText />}
+      {question.questionType === QuestionType.Text && (
+        <AnswerOptionText question={question} />
+      )}
       {question.questionType === QuestionType.Select && (
         <AnswerOptionSelect
           question={question}

@@ -1,15 +1,33 @@
 import React from "react";
 
-const ActionBox = () => {
+const ActionBox = ({ pageInfo, onPageHandle, onCompleteHandle }) => {
   return (
     <div className="action-box">
       <div className="pagination">
-      <button className="button pagination-button">Previous</button>
-      <button className="button pagination-button">Next</button>
+        {pageInfo.currentPage !== 0 && (
+          <button
+            className="button pagination-button"
+            onClick={() => onPageHandle(pageInfo.currentPage - 1)}
+          >
+            Previous
+          </button>
+        )}
+        {pageInfo.currentPage !== pageInfo.pageCount - 1 && (
+          <button
+            className="button pagination-button"
+            onClick={() => onPageHandle(pageInfo.currentPage + 1)}
+          >
+            Next
+          </button>
+        )}
       </div>
-      <button className="button complete-button">Complete</button>
+      {pageInfo.currentPage === pageInfo.pageCount - 1 && (
+        <button className="button complete-button" onClick={() => {onCompleteHandle()}}>
+          Complete
+        </button>
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default ActionBox;

@@ -8,3 +8,5 @@ export const PaginationType = {
   Order: 419440000,
   SurveyQuestionGroup: 419440001,
 };
+
+export const APIURL = "https://localhost:5001";
