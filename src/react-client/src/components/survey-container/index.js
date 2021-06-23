@@ -4,8 +4,10 @@ import queryString from "query-string";
 import Header from "./header";
 import Page from "./page";
 import ActionBox from "./action-box";
-import { PaginationType, APIURL } from "./../../utils/contants";
+import { PaginationType, APIURL, QuestionType } from "./../../utils/contants";
 import PageLoader from "../elements/page-loader";
+
+import { AnswerContext } from "../../contexts/answer-context";
 
 const SurveyContainer = () => {
   const [loading, setLoading] = useState(false);
@@ -15,6 +17,7 @@ const SurveyContainer = () => {
     pageCount: 0,
   });
   const [preparedQuestions, setPreparedQuestions] = useState([]);
+  const [answers, setAnswers] = useState([]);
 
   useEffect(() => {
     var query = queryString.parse(window.location.search);
@@ -112,7 +115,31 @@ const SurveyContainer = () => {
   };
 
   const onCompleteHandle = () => {
-    alert("complete triggered");
+    var query = queryString.parse(window.location.search);
+    if (!query?.code) {
+      return;
+    }
+
+    const payload = {
+      code: query?.code,
+      answers: answers,
+    };
+
+    setLoading(true);
+    api
+      .post(`/survey/complete`, payload)
+      .then((res) => {
+        if (res.data.success) {
+        } else {
+          console.log(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const renderOrderQuestion = () => {
@@ -152,6 +179,49 @@ const SurveyContainer = () => {
     );
   };
 
+  const saveAnswer = (question, answer) => {
+    const _answer = answers.find((z) => z.questionId === question.id);
+    if (_answer) {
+      _answer.textAnswer =
+        question.questionType === QuestionType.Text ? answer : null;
+      _answer.selectAnswer =
+        question.questionType === QuestionType.Select ? answer.id : null;
+      _answer.multiSelectAnswer =
+        question.questionType === QuestionType.MultiSelect
+          ? answer.map((a) => a.id)
+          : null;
+      setAnswers([
+        ...answers.filter((z) => z.questionId !== question.id),
+        _answer,
+      ]);
+    } else {
+      const _answer = {
+        questionId: question.id,
+        questionType: question.questionType,
+        additionalAnswer: "",
+        textAnswer: question.questionType === QuestionType.Text ? answer : null,
+        selectAnswer:
+          question.questionType === QuestionType.Select ? answer.id : null,
+        multiSelectAnswer:
+          question.questionType === QuestionType.MultiSelect
+            ? answer.map((a) => a.id)
+            : null,
+      };
+      setAnswers([...answers, _answer]);
+    }
+  };
+
+  const saveAdditionalAnswer = (question, text) => {
+    const _answer = answers.find((z) => z.questionId === question.id);
+    if (_answer) {
+      _answer.additionalAnswer = text;
+      setAnswers([
+        ...answers.filter((z) => z.questionId !== question.id),
+        _answer,
+      ]);
+    }
+  };
+
   return (
     <>
       {loading && <PageLoader />}
@@ -161,20 +231,24 @@ const SurveyContainer = () => {
         </div>
       )}
       {survey && (
-        <div className="survey-container">
-          <Header
-            name={survey.name}
-            description={survey.description}
-            imageURL={APIURL + survey.imageURL}
-          />
-          {renderOrderQuestion()}
-          {renderSurveyGroupQuestion()}
-          <ActionBox
-            pageInfo={pageInfo}
-            onPageHandle={onPageHandle}
-            onCompleteHandle={onCompleteHandle}
-          />
-        </div>
+        <AnswerContext.Provider
+          value={{ answers, saveAnswer, saveAdditionalAnswer }}
+        >
+          <div className="survey-container">
+            <Header
+              name={survey.name}
+              description={survey.description}
+              imageURL={APIURL + survey.imageURL}
+            />
+            {renderOrderQuestion()}
+            {renderSurveyGroupQuestion()}
+            <ActionBox
+              pageInfo={pageInfo}
+              onPageHandle={onPageHandle}
+              onCompleteHandle={onCompleteHandle}
+            />
+          </div>
+        </AnswerContext.Provider>
       )}
     </>
   );

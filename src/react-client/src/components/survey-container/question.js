@@ -31,7 +31,7 @@ const Question = ({ question }) => {
         />
       )}
 
-      {question.additionalAnswer && <AdditionalAnswer />}
+      {question.additionalAnswer && <AdditionalAnswer question={question} />}
     </div>
   );
 };
