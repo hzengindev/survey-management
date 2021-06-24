@@ -1,13 +1,13 @@
 import React from "react";
 
-const ActionBox = ({ pageInfo, onPageHandle, onCompleteHandle }) => {
+const ActionBox = ({ pageInfo, onPageChangeHandle, onCompleteHandle }) => {
   return (
     <div className="action-box">
       <div className="pagination">
         {pageInfo.currentPage !== 0 && (
           <button
             className="button pagination-button"
-            onClick={() => onPageHandle(pageInfo.currentPage - 1)}
+            onClick={() => onPageChangeHandle(pageInfo.currentPage - 1)}
           >
             Previous
           </button>
@@ -15,7 +15,7 @@ const ActionBox = ({ pageInfo, onPageHandle, onCompleteHandle }) => {
         {pageInfo.currentPage !== pageInfo.pageCount - 1 && (
           <button
             className="button pagination-button"
-            onClick={() => onPageHandle(pageInfo.currentPage + 1)}
+            onClick={() => onPageChangeHandle(pageInfo.currentPage + 1)}
           >
             Next
           </button>

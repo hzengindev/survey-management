@@ -7,6 +7,9 @@
 .home{
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
 }
 
 .survey-container {
@@ -182,6 +185,58 @@
 }
 
 /*#Action Box*/
+
+/*Dialog*/
+.dialog {
+  position: fixed;
+  background: #ffffffa8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.dialog-box{
+  background: #fff;
+  border: 1px solid #ddd;
+  width: 50%;
+  text-align: center;
+  padding: 20px;
+  -webkit-box-shadow: 0 30px 60px 0 rgb(0 0 0 / 30%);
+  box-shadow: 0 30px 60px 0 rgb(0 0 0 / 30%);
+}
+
+.dialog-header{
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.dialog-content{
+  font-size: 14px;
+  font-weight: 500;
+  margin: 20px;
+}
+
+.dialog-close-button{
+  border: none;
+  height: 32px;
+  padding: 6px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  border:1px solid #ddd;
+  background: #fff;
+}
+
+.dialog-close-button:hover{
+  border: 1px solid #5f5d5d;
+  background: #5f5d5d;
+  color: #fff;
+}
+
+/*#Dialog*/
 
 /*Loading Animation*/
 .page-loader {

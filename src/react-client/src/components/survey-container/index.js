@@ -6,11 +6,16 @@ import Page from "./page";
 import ActionBox from "./action-box";
 import { PaginationType, APIURL, QuestionType } from "./../../utils/contants";
 import PageLoader from "../elements/page-loader";
-
+import Dialog from "../elements/dialog";
 import { AnswerContext } from "../../contexts/answer-context";
 
 const SurveyContainer = () => {
   const [loading, setLoading] = useState(false);
+  const [dialog, setDialog] = useState({
+    header: "",
+    content: "",
+    enable: false,
+  });
   const [survey, setSurvey] = useState(null);
   const [pageInfo, setPageInfo] = useState({
     currentPage: 0,
@@ -18,6 +23,7 @@ const SurveyContainer = () => {
   });
   const [preparedQuestions, setPreparedQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
+  let currentPageQuestions = [];
 
   useEffect(() => {
     var query = queryString.parse(window.location.search);
@@ -30,13 +36,14 @@ const SurveyContainer = () => {
       .get(`/survey/${query.code}`)
       .then((res) => {
         if (res.data.success) {
-          setSurvey(res.data.data);
+          if (res.data.data) setSurvey(res.data.data);
+          else setDialog({header: "", content: res.data.message, enable: true});
         } else {
-          console.log(res.data.message);
+          setDialog({header: "", content: res.data.message, enable: true});
         }
       })
       .catch((err) => {
-        console.log(err);
+        setDialog({header: "", content: err.response.data.message, enable: true});
       })
       .finally(() => {
         setLoading(false);
@@ -110,11 +117,55 @@ const SurveyContainer = () => {
     setPageInfo({ ...pageInfo, pageCount: groups.length });
   };
 
-  const onPageHandle = (currentPage) => {
+  const onPageChangeHandle = (currentPage) => {
+    if (pageInfo.currentPage < currentPage && !checkRequiredQuestions()) return;
+
     setPageInfo({ ...pageInfo, currentPage });
   };
 
+  const checkRequiredQuestions = () => {
+    const requiredQuestions = currentPageQuestions.filter(
+      (z) => z.required === true
+    );
+    if (requiredQuestions.length === 0) return true;
+
+    let requiredQuestionValidation = true;
+    requiredQuestions.forEach((question) => {
+      const answer = answers.find((z) => z.questionId === question.id);
+      if (!answer) {
+        requiredQuestionValidation = false;
+        return;
+      }
+
+      if (answer.questionType === QuestionType.Text && !answer.textAnswer) {
+        requiredQuestionValidation = false;
+        return;
+      }
+
+      if (answer.questionType === QuestionType.Select && !answer.selectAnswer) {
+        requiredQuestionValidation = false;
+        return;
+      }
+
+      if (
+        answer.questionType === QuestionType.MultiSelect &&
+        (!answer.multiSelectAnswer || answer.multiSelectAnswer.length === 0)
+      ) {
+        requiredQuestionValidation = false;
+        return;
+      }
+    });
+
+    if(!requiredQuestionValidation){
+      setDialog({header: "Error", content: "You should answer all required questions for next step.", enable: true});
+    }
+
+    return requiredQuestionValidation;
+  };
+
   const onCompleteHandle = () => {
+    if (!checkRequiredQuestions()) return;
+
     var query = queryString.parse(window.location.search);
     if (!query?.code) {
       return;
@@ -130,12 +181,15 @@ const SurveyContainer = () => {
       .post(`/survey/complete`, payload)
       .then((res) => {
         if (res.data.success) {
+          setDialog({header: "Success", content: "The survey have been completed successfully.", enable: true});
+
         } else {
-          console.log(res.data.message);
+          setDialog({header: "Error", content: res.data.message, enable: true});
         }
       })
       .catch((err) => {
         console.log(err);
+        setDialog({header: "Error", content: err.response.data.message, enable: true});
       })
       .finally(() => {
         setLoading(false);
@@ -143,12 +197,18 @@ const SurveyContainer = () => {
   };
 
   const renderOrderQuestion = () => {
-    if (survey.paginationType !== PaginationType.Order || !preparedQuestions)
+    if (
+      survey.paginationType !== PaginationType.Order ||
+      !preparedQuestions ||
+      preparedQuestions.length === 0
+    )
       return null;
 
     const _questions = preparedQuestions.find(
       (z) => z.pageNumber === pageInfo.currentPage
     )?.questions;
+
+    currentPageQuestions(_questions);
 
     return <Page questions={_questions} />;
   };
@@ -156,13 +216,16 @@ const SurveyContainer = () => {
   const renderSurveyGroupQuestion = () => {
     if (
       survey.paginationType !== PaginationType.SurveyQuestionGroup ||
-      !preparedQuestions
+      !preparedQuestions ||
+      preparedQuestions.length === 0
     )
       return null;
 
     const pageDefinition = preparedQuestions.find(
       (z) => z.pageNumber === pageInfo.currentPage
     );
+
+    currentPageQuestions = pageDefinition?.questions;
 
     return (
       <div className="survey-question-group">
@@ -219,12 +282,23 @@ const SurveyContainer = () => {
         ...answers.filter((z) => z.questionId !== question.id),
         _answer,
       ]);
+    } else {
+      const _answer = {
+        questionId: question.id,
+        questionType: question.questionType,
+        additionalAnswer: text,
+        textAnswer: null,
+        selectAnswer: null,
+        multiSelectAnswer: null,
+      };
+      setAnswers([...answers, _answer]);
     }
   };
 
   return (
     <>
       {loading && <PageLoader />}
+      {dialog.enable && <Dialog header={dialog.header} content={dialog.content} onCloseHandler={() => setDialog({...dialog, enable: false})} />}
       {!survey && (
         <div className="home">
           <h1>Survey Management</h1>
@@ -244,7 +318,7 @@ const SurveyContainer = () => {
             {renderSurveyGroupQuestion()}
             <ActionBox
               pageInfo={pageInfo}
-              onPageHandle={onPageHandle}
+              onPageChangeHandle={onPageChangeHandle}
               onCompleteHandle={onCompleteHandle}
             />
           </div>
