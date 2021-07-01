@@ -5,11 +5,11 @@ namespace Core.Utilities.Results
     [DataContract]
     public class ActionResult
     {
-        [DataMember]
+        [DataMember(Name = "success")]
         public bool Success { get; set; } = true;
-        [DataMember]
+        [DataMember(Name = "message")]
         public string Message { get; set; }
-        [DataMember]
+        [DataMember(Name = "code")]
         public int Code { get; set; }
 
         public ActionResult(bool success)
