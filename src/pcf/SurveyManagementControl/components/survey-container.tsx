@@ -303,7 +303,7 @@ const SurveyContainer = (props: ISurveyContainerProps): JSX.Element => {
       (z: any) => z.pageNumber === pageInfo.currentPage
     )?.questions;
 
-    currentPageQuestions(_questions);
+    currentPageQuestions = _questions;
 
     return <Page questions={_questions} />;
   };
