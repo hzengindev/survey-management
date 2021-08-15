@@ -1,3 +1,4 @@
+
 # Survey Management
 
 This project created for boilerplate about survey or exam module. For now it's helping to survey management but you can change everything easily. 
@@ -13,6 +14,11 @@ First of all if you want to use this solution you should import dataverse custom
 If you want to run standalone you should use **asp.net core server** and **react client** project. asp.net core server app helps sed your survey data to the dataverse organization. react client app shows survey information to end users.
 
 If you want to run in dataverse you should use **pcf control**. PCF Control works like react client and has a very user friendly UI.
+
+## Introduction
+![cover](https://raw.githubusercontent.com/hzengindev/survey-management/main/img/cover.png)
+
+![introduction](https://raw.githubusercontent.com/hzengindev/survey-management/main/img/introduction.gif)
 
 ## About Entities
 
