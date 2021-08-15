@@ -1,29 +1,29 @@
 # Survey Management
 
-This project created for boilerplate about survey or exam module. For now it's helping to survey management but you can change easily everything. 
+This project created for boilerplate about survey or exam module. For now it's helping to survey management but you can change everything easily. 
 
-The main project struct contain 4 project. 
+The main project structure contains 4 projects. 
 - asp.net core server
 - dataverse customization
 - react client
 - pcf
 
-First of all if you want to use this solution you should import dataverse customization solution into your organization. I gave a unmanaged ([solution](https://github.com/hzengindev/survey-management/blob/main/src/dataverse-customization/SurveyManagement_1_0_0_1.zip)). You can import this solution so easy. This solution contains entities, forms, views and actions and your free to change everything.
+First of all if you want to use this solution you should import dataverse customization solution into your organization. I gave an unmanaged ([solution](https://github.com/hzengindev/survey-management/blob/main/src/dataverse-customization/SurveyManagement_1_0_0_1.zip)). You can easily import this solution. This solution contains entities, forms, views and actions and your free to change everything.
 
-If you want to run standalone you should use **asp.net core server** and **react client** project. asp.net core server app helping to your survey data send to dataverse organization. react client app is showing survey information to end users.
+If you want to run standalone you should use **asp.net core server** and **react client** project. asp.net core server app helps sed your survey data to the dataverse organization. react client app shows survey information to end users.
 
-If you want to run in dataverse you should use **pcf control**. Because this pcf control provide like a react client and so user frindly UI.
+If you want to run in dataverse you should use **pcf control**. PCF Control works like react client and has a very user friendly UI.
 
 ## About Entities
 
 ### Survey
- Contains your main survey informations.
+ Contains your main survey information.
 |Field|Type|Description|
 |--|--|--|
 |Name|SLT|Name |
 |Description|MLT|Description |
 |Pagination Type|OptionSet|You can define pagination type. (Order / Survey Pagination Group) |
-|Record Per Page|Whole Number|You can define how much question show per page |
+|Record Per Page|Whole Number|You can define how many question show per page |
 |Image|Image|You can define image for survey |
 
 ### Survey Question
@@ -67,7 +67,7 @@ If you want to run in dataverse you should use **pcf control**. Because this pcf
 |Survey|Lookup|Survey answer option template must be created for the survey |
 
 ### Survey Requests
- Survey request records created for survey session. You can create without any relationship or you can create to any entity relationship than you can create specific records. 
+ Survey request records created for survey session. You can create without any relationship or you can create to any entity relationship then you can create specific records. 
 |Field|Type|Description|
 |--|--|--|
 |Name|SLT|Name |
@@ -77,7 +77,7 @@ If you want to run in dataverse you should use **pcf control**. Because this pcf
 |Responsible Email|SLT|Responsible Email|
 |Completed|Two Option|Completed|
 |Completion Date|Datetime|Completion Date|
-|Code|SLT|Code field is a SLT. If you want to standalone version you must share survey request link with code. If you want to use in dataverse you don't have to fill.|
+|Code|SLT|Code field is a SLT. If you want to use the standalone version you must share survey request link with code. If you want to use in dataverse you don't have to fill.|
 
 ### Survey Responses
  Survey response records created for your survey answers.
