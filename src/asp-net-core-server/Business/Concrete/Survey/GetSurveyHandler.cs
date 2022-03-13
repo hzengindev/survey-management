@@ -114,6 +114,9 @@ namespace Business.Concrete.Survey
 
         private IEnumerable<IGrouping<Guid, Entity>> GetAnswerOptions(Guid[] questionIds)
         {
+            if (questionIds is null || questionIds.Length == 0)
+                return null;
+
             var qe = new QueryExpression("hz_surveyansweroption");
             qe.ColumnSet = new ColumnSet("hz_surveyansweroptionid", "hz_name", "hz_order", "hz_imageid", "hz_surveyquestionid");
             qe.NoLock = true;
@@ -131,6 +134,9 @@ namespace Business.Concrete.Survey
 
         private IEnumerable<IGrouping<Guid, Entity>> GetAnswerOptionsByTemplateId(Guid[] answerOptionTemplateId)
         {
+            if (answerOptionTemplateId is null || answerOptionTemplateId.Length == 0)
+                return null;
+
             var qe = new QueryExpression("hz_surveyansweroptiontemplate");
             qe.ColumnSet = new ColumnSet("hz_name", "hz_surveyansweroptiontemplateid");
             qe.NoLock = true;
