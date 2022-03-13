@@ -9,7 +9,7 @@ The main project structure contains 4 projects.
 - react client
 - pcf
 
-First of all if you want to use this solution you should import dataverse customization solution into your organization. I gave an unmanaged ([solution](https://github.com/hzengindev/survey-management/blob/main/src/dataverse-customization/SurveyManagement_1_0_0_1.zip)). You can easily import this solution. This solution contains entities, forms, views and actions and your free to change everything.
+First of all if you want to use this solution you should import dataverse customization solution into your organization. I gave an unmanaged ([solution](https://github.com/hzengindev/survey-management/blob/main/src/dataverse-customization/SurveyManagement_1_0_0_1.zip)). You can easily import this solution. This solution contains entities, forms, views and actions and your free to change everything. After that you should import the pcf solution. ([pcf solution](https://github.com/hzengindev/survey-management/blob/main/src/dataverse-customization/SMCSolutions.zip))
 
 If you want to run standalone you should use **asp.net core server** and **react client** project. asp.net core server app helps sed your survey data to the dataverse organization. react client app shows survey information to end users.
 
